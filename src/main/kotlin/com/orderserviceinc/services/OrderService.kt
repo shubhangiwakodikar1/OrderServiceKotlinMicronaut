@@ -33,7 +33,7 @@ open class OrderService {
             if (offer is OfferBuy1Get1Free) {
                 if (offer.fruit == Offer.FRUIT.APPLE) {
                     message += ". You got ${nApples * 2} apples with our Buy1Get1FreeOffer :)"
-                } else if (offer.fruit == Offer.FRUIT.) {
+                } else if (offer.fruit == Offer.FRUIT.ORANGE) {
                     message += ". You got ${nOranges * 2} orranges with our Buy1Get1FreeOffer :)"
                 }
             }
