@@ -3,10 +3,12 @@ package com.orderserviceinc.services
 import com.orderserviceinc.models.Offer
 import com.orderserviceinc.models.OfferBuy1Get1Free
 import com.orderserviceinc.models.OfferNForPriceOfM
+import com.orderserviceinc.models.Order
 import com.orderserviceinc.models.OrdersRequest
 import com.orderserviceinc.models.OrdersResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 import javax.inject.Singleton
 
 @Singleton
@@ -17,6 +19,7 @@ open class OrderService {
         const val costOfApple = 0.60
         const val costOfOrange = 0.25
         val LOG = LoggerFactory.getLogger(OrderService.javaClass)
+        var orders = setOf<Order>() //store all orders here in this in memory object; when application is shut down, this will be lost; an external database will be desirable
     }
 
     open fun getOrderTotal(nApples: Int, nOranges: Int, ordersRequest: OrdersRequest, transactionId: String?): OrdersResponse {
@@ -46,5 +49,11 @@ open class OrderService {
             }
         }
         return OrdersResponse(nApples, nOranges, totalCost, ordersRequest.message)
+    }
+
+    open fun storeOrder(nApples: Int, nOranges: Int, orderTotal: Double) {
+        val orderId = UUID.randomUUID().toString();
+        val order = Order(orderId, nApples, nOranges, orderTotal)
+        orders.plus(order)
     }
 }
