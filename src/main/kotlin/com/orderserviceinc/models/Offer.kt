@@ -5,5 +5,4 @@ interface Offer {
         APPLE,
         ORANGE
     }
-    val fruit: FRUIT
 }

@@ -1,7 +1,5 @@
 package com.orderserviceinc.models
 
-open abstract class OfferNForPriceOfM(nNumber: Int, mNumber: Int): Offer {
+data class OfferNForPriceOfM(val nNumber: Int, val mNumber: Int, val fruit: Offer.FRUIT): Offer {
     //nNumber is greater than mNumber
-    val nNumber: Int = nNumber
-    val mNumber: Int = mNumber
 }

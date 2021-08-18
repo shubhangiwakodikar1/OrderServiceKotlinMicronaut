@@ -1,4 +1,5 @@
 package com.orderserviceinc.models
 
-data class OrdersRequest(val message: String) {
+//default values for both parameters
+data class OrdersRequest(val message: String = "I love apples", var offers: Set<Offer> = setOf<Offer>()) {
 }

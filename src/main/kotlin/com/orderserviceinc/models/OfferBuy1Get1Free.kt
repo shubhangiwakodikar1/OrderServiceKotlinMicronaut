@@ -1,4 +1,4 @@
 package com.orderserviceinc.models
 
-interface OfferBuy1Get1Free: Offer {
+data class OfferBuy1Get1Free(val fruit: Offer.FRUIT): Offer {
 }

@@ -1,5 +1,7 @@
 package com.orderserviceinc
 
+import com.orderserviceinc.models.Offer
+import com.orderserviceinc.models.OfferBuy1Get1Free
 import com.orderserviceinc.models.OrdersRequest
 import com.orderserviceinc.models.OrdersResponse
 import com.orderserviceinc.services.OrderService
@@ -24,11 +26,11 @@ class OrderserviceSpec extends Specification {
         orderService = new OrderService()
         transactionId = UUID.randomUUID().toString()
         message = "I love apples but not oranges"
-        ordersRequest = new OrdersRequest(message)
+        ordersRequest = new OrdersRequest(message, [].toSet())
     }
 
     @Unroll
-    void 'test it works'() {
+    void 'test getOrderTotal works with #nApples and #nOranges'() {
         expect:
         application.running
 
@@ -37,6 +39,27 @@ class OrderserviceSpec extends Specification {
 
         then:
         ordersResponse.message == message
+        ordersResponse.NApples == nApples
+        ordersResponse.NOranges == nOranges
+        ordersResponse.orderTotal == ((OrderService.costOfApple * nApples) + (OrderService.costOfOrange * nOranges))
+
+        where:
+        nApples     |  nOranges
+        0           |  1
+        1           | -1
+    }
+
+    @Unroll
+    void 'test getOrderTotalWithOffers works with #nApples and #nOranges with offers'() {
+        expect:
+        application.running
+
+        when:
+        OrdersResponse ordersResponse = orderService.getOrderTotalWithOffers(nApples, nOranges, ordersRequest, transactionId)
+
+        then:
+        ordersResponse.message.contains("You got ${nApples * 2} apples with our Buy1Get1FreeOffer :)")
+        ordersResponse.message.contains("You got 3 oranges with our 3ForPriceOf2Offer :)")
         ordersResponse.NApples == nApples
         ordersResponse.NOranges == nOranges
         ordersResponse.orderTotal == ((OrderService.costOfApple * nApples) + (OrderService.costOfOrange * nOranges))
