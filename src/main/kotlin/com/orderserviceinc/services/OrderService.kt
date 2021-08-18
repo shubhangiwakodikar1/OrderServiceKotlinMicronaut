@@ -10,7 +10,7 @@ import javax.inject.Singleton
 open class OrderService {
     companion object {
         //define all your constants here so they are available in this class' instance
-        const val costOfApple = 0.35
+        const val costOfApple = 0.60
         const val costOfOrange = 0.25
         val LOG = LoggerFactory.getLogger(OrderService.javaClass)
     }
